@@ -3,10 +3,9 @@ FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 
 COPY taskmanagement/pom.xml .
-
 COPY taskmanagement/src ./src
 
-RUN mvn clean package -DskipTests
+RUN mvn clean package -Dmaven.test.skip=true
 
 FROM eclipse-temurin:17-jre
 
