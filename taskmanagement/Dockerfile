@@ -1,13 +1,19 @@
-# Step 1: Maven se build karein
 FROM maven:3.9.6-eclipse-temurin-17 AS build
+
 WORKDIR /app
-COPY pom.xml .
-COPY src ./src
+
+COPY taskmanagement/pom.xml .
+
+COPY taskmanagement/src ./src
+
 RUN mvn clean package -DskipTests
 
-# Step 2: Java runtime se run karein
 FROM eclipse-temurin:17-jre
+
 WORKDIR /app
+
 COPY --from=build /app/target/*.jar app.jar
+
 EXPOSE 8080
+
 ENTRYPOINT ["java", "-jar", "app.jar"]
